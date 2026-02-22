@@ -130,5 +130,17 @@ public class QuantityMeasurementApp {
 		Length l2 = new Length(12.0, Length.LengthUnit.INCHES);
 
 		System.out.println("UC3 (Generic Length): " + l1.equals(l2));
+		
+		Length y1 = new Length(1.0, Length.LengthUnit.YARDS);
+		Length f1 = new Length(3.0, Length.LengthUnit.FEET);
+		System.out.println("1 Yard == 3 Feet → " + y1.equals(f1));
+
+		Length y2 = new Length(1.0, Length.LengthUnit.YARDS);
+		Length i1 = new Length(36.0, Length.LengthUnit.INCHES);
+		System.out.println("1 Yard == 36 Inches → " + y2.equals(i1));
+
+		Length cm1 = new Length(1.0, Length.LengthUnit.CENTIMETERS);
+		Length inch1 = new Length(0.393701, Length.LengthUnit.INCHES);
+		System.out.println("1 cm == 0.393701 inch → " + cm1.equals(inch1));
 	}
 }
