@@ -3,40 +3,124 @@ package com;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.QuantityMeasurementApp.Feet;
-
 public class QuantityMeasurementAppTest {
-
+	
     @Test
-    public void testFeetEquality_SameValue() {
-        Feet feet1 = new Feet(1.0);
-        Feet feet2 = new Feet(1.0);
-        assertTrue(feet1.equals(feet2));
+    void testFeetEquality_SameValue() {
+        QuantityMeasurementApp.Feet f1 =
+                new QuantityMeasurementApp.Feet(1.0);
+        QuantityMeasurementApp.Feet f2 =
+                new QuantityMeasurementApp.Feet(1.0);
+
+        assertTrue(f1.equals(f2),
+                "1.0 ft should be equal to 1.0 ft");
     }
 
     @Test
-    public void testFeetEquality_DifferentValue() {
-        Feet feet1 = new Feet(1.0);
-        Feet feet2 = new Feet(2.0);
-        assertFalse(feet1.equals(feet2));
+    void testFeetEquality_DifferentValue() {
+        QuantityMeasurementApp.Feet f1 =
+                new QuantityMeasurementApp.Feet(1.0);
+        QuantityMeasurementApp.Feet f2 =
+                new QuantityMeasurementApp.Feet(2.0);
+
+        assertFalse(f1.equals(f2),
+                "1.0 ft should not be equal to 2.0 ft");
     }
 
     @Test
-    public void testFeetEquality_DifferentClass() {
-        Feet feet1 = new Feet(1.0);
-        String nonFeetObject = "1.0";
-        assertFalse(feet1.equals(nonFeetObject));
+    void testFeetEquality_NullComparison() {
+        QuantityMeasurementApp.Feet f1 =
+                new QuantityMeasurementApp.Feet(1.0);
+
+        assertFalse(f1.equals(null),
+                "Feet should not be equal to null");
     }
 
     @Test
-    public void testFeetEquality_SameReference() {
-        Feet feet1 = new Feet(1.0);
-        assertTrue(feet1.equals(feet1));
+    void testFeetEquality_SameReference() {
+        QuantityMeasurementApp.Feet f1 =
+                new QuantityMeasurementApp.Feet(1.0);
+
+        assertTrue(f1.equals(f1),
+                "Object should be equal to itself");
+    }
+
+    @Test
+    void testFeetEquality_TypeSafety() {
+        QuantityMeasurementApp.Feet f1 =
+                new QuantityMeasurementApp.Feet(1.0);
+
+        assertFalse(f1.equals("Not a Feet Object"),
+                "Feet should not equal different type");
     }
     
     @Test
-    public void testFeetEquality_NullComparison() {
-        Feet feet1 = new Feet(1.0);
-        assertFalse(feet1.equals(null));
+    void testInchesEquality_SameValue() {
+        QuantityMeasurementApp.Inches i1 =
+                new QuantityMeasurementApp.Inches(5.0);
+        QuantityMeasurementApp.Inches i2 =
+                new QuantityMeasurementApp.Inches(5.0);
+
+        assertTrue(i1.equals(i2),
+                "5.0 inch should be equal to 5.0 inch");
+    }
+
+    @Test
+    void testInchesEquality_DifferentValue() {
+        QuantityMeasurementApp.Inches i1 =
+                new QuantityMeasurementApp.Inches(5.0);
+        QuantityMeasurementApp.Inches i2 =
+                new QuantityMeasurementApp.Inches(6.0);
+
+        assertFalse(i1.equals(i2),
+                "5.0 inch should not be equal to 6.0 inch");
+    }
+
+    @Test
+    void testInchesEquality_NullComparison() {
+        QuantityMeasurementApp.Inches i1 =
+                new QuantityMeasurementApp.Inches(5.0);
+
+        assertFalse(i1.equals(null),
+                "Inches should not be equal to null");
+    }
+
+    @Test
+    void testInchesEquality_SameReference() {
+        QuantityMeasurementApp.Inches i1 =
+                new QuantityMeasurementApp.Inches(5.0);
+
+        assertTrue(i1.equals(i1),
+                "Object should be equal to itself");
+    }
+    
+    @Test
+    void testFeetAndInchesEquality_True() {
+        assertTrue(
+                QuantityMeasurementApp
+                        .checkFeetAndInchesEquality(1.0, 12.0),
+                "1 ft should equal 12 inches"
+        );
+    }
+
+    @Test
+    void testFeetAndInchesEquality_False() {
+        assertFalse(
+                QuantityMeasurementApp
+                        .checkFeetAndInchesEquality(1.0, 10.0),
+                "1 ft should not equal 10 inches"
+        );
+    }
+    
+    @Test
+    void testFeet_NonNumericInput() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new QuantityMeasurementApp.Feet(Double.NaN));
+    }
+
+    @Test
+    void testInches_NonNumericInput() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new QuantityMeasurementApp.Inches(Double.NaN));
     }
 }
