@@ -111,6 +111,21 @@ public class QuantityMeasurementApp {
 		Inches i = new Inches(inches);
 		return Double.compare(f.toInches(), i.getValue()) == 0;
 	}
+	
+	public static void demonstrateLengthConversion(double value, Length.LengthUnit from, 
+			Length.LengthUnit to) {
+		double result = Length.convert(value, from, to);
+		
+		System.out.println("convert(" + value + ", " + from +
+				", " + to + ") -> " + result);
+	}
+	
+	public static void demonstrateLengthConversion(Length length,
+			Length.LengthUnit target) {
+		Length converted = length.convertTo(target);
+		
+		System.out.println(length + "-> " + converted);
+	}
 
 	public static void main(String[] args) {
 
@@ -142,5 +157,14 @@ public class QuantityMeasurementApp {
 		Length cm1 = new Length(1.0, Length.LengthUnit.CENTIMETERS);
 		Length inch1 = new Length(0.393701, Length.LengthUnit.INCHES);
 		System.out.println("1 cm == 0.393701 inch → " + cm1.equals(inch1));
+		
+		demonstrateLengthConversion(1.0, Length.LengthUnit.FEET,
+				Length.LengthUnit.INCHES);
+		
+		demonstrateLengthConversion(3.0, Length.LengthUnit.YARDS,
+		        Length.LengthUnit.FEET);
+
+		demonstrateLengthConversion(1.0, Length.LengthUnit.CENTIMETERS,
+		        Length.LengthUnit.INCHES);
 	}
 }
