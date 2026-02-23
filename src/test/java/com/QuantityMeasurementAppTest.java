@@ -159,4 +159,55 @@ public class QuantityMeasurementAppTest {
 		assertTrue(feet.equals(inches));
 		assertTrue(yard.equals(inches));
 	}
+	
+	// UC-5 
+	
+	@Test
+	void testConversion_FeetToInches() {
+		double result = Length.convert(1.0,
+				 Length.LengthUnit.FEET,
+		            Length.LengthUnit.INCHES);
+
+		    assertEquals(12.0, result, 1e-6);
+	}
+
+	@Test
+	void testConversion_YardsToFeet() {
+	    double result = Length.convert(3.0,
+	            Length.LengthUnit.YARDS,
+	            Length.LengthUnit.FEET);
+
+	    assertEquals(9.0, result, 1e-6);
+	}
+	
+	@Test
+	void testConversion_CentimetersToInches() {
+	    double result = Length.convert(2.54,
+	            Length.LengthUnit.CENTIMETERS,
+	            Length.LengthUnit.INCHES);
+
+	    assertEquals(1.0, result, 1e-6);
+	}
+	
+	@Test
+	void testConversion_SameUnit() {
+	    double result = Length.convert(5.0,
+	            Length.LengthUnit.FEET,
+	            Length.LengthUnit.FEET);
+
+	    assertEquals(5.0, result, 1e-6);
+	}
+	
+	@Test
+	void testConversion_InvalidInput() {
+
+	    assertThrows(IllegalArgumentException.class,
+	            () -> Length.convert(1.0, null,
+	                    Length.LengthUnit.FEET));
+
+	    assertThrows(IllegalArgumentException.class,
+	            () -> Length.convert(Double.NaN,
+	                    Length.LengthUnit.FEET,
+	                    Length.LengthUnit.INCHES));
+	}
 }
