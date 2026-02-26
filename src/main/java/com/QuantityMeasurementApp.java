@@ -126,6 +126,12 @@ public class QuantityMeasurementApp {
 		
 		System.out.println(length + "-> " + converted);
 	}
+	
+	//UC 6
+	public static void demonstrateAddition(Length l1, Length l2) {
+		Length result = Length.add(l1, l2);
+		System.out.println("add(" + l1 + ", " + l2 + ") -> " + result);
+	}
 
 	public static void main(String[] args) {
 
@@ -166,5 +172,18 @@ public class QuantityMeasurementApp {
 
 		demonstrateLengthConversion(1.0, Length.LengthUnit.CENTIMETERS,
 		        Length.LengthUnit.INCHES);
+		
+		// UC 6
+		demonstrateAddition(
+		        new Length(1.0, Length.LengthUnit.FEET),
+		        new Length(12.0, Length.LengthUnit.INCHES));
+
+		demonstrateAddition(
+		        new Length(1.0, Length.LengthUnit.YARDS),
+		        new Length(3.0, Length.LengthUnit.FEET));
+
+		demonstrateAddition(
+		        new Length(5.0, Length.LengthUnit.FEET),
+		        new Length(-2.0, Length.LengthUnit.FEET));
 	}
 }
