@@ -210,4 +210,58 @@ public class QuantityMeasurementAppTest {
 	                    Length.LengthUnit.FEET,
 	                    Length.LengthUnit.INCHES));
 	}
+	
+	//UC 6
+	@Test
+	void testAddition_SameUnit() {
+	    Length l1 = new Length(1.0, Length.LengthUnit.FEET);
+	    Length l2 = new Length(2.0, Length.LengthUnit.FEET);
+
+	    Length result = Length.add(l1, l2);
+
+	    assertEquals(3.0, result.getValue(), 1e-6);
+	}
+	
+	@Test
+	void testAddition_CrossUnit_FeetPlusInches() {
+	    Length l1 = new Length(1.0, Length.LengthUnit.FEET);
+	    Length l2 = new Length(12.0, Length.LengthUnit.INCHES);
+
+	    Length result = Length.add(l1, l2);
+
+	    assertEquals(2.0, result.getValue(), 1e-6);
+	}
+	
+	@Test
+	void testAddition_Commutativity() {
+	    Length l1 = new Length(1.0, Length.LengthUnit.FEET);
+	    Length l2 = new Length(12.0, Length.LengthUnit.INCHES);
+
+	    Length r1 = Length.add(l1, l2);
+	    Length r2 = Length.add(l2, l1);
+
+	    assertEquals(
+	            r1.convertTo(Length.LengthUnit.INCHES).getValue(),
+	            r2.convertTo(Length.LengthUnit.INCHES).getValue(),
+	            1e-6
+	    );
+	}
+	
+	@Test
+	void testAddition_WithZero() {
+	    Length l1 = new Length(5.0, Length.LengthUnit.FEET);
+	    Length zero = new Length(0.0, Length.LengthUnit.INCHES);
+
+	    Length result = Length.add(l1, zero);
+
+	    assertEquals(5.0, result.getValue(), 1e-6);
+	}
+	
+	@Test
+	void testAddition_NullOperand() {
+	    Length l1 = new Length(1.0, Length.LengthUnit.FEET);
+
+	    assertThrows(IllegalArgumentException.class,
+	            () -> Length.add(l1, null));
+	}
 }
