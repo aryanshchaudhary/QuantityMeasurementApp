@@ -62,6 +62,31 @@ public class Length {
 
 	    return new Length(resultValue, l1.unit);
 	}
+	
+	// UC 7
+	public static Length add(Length l1, Length l2, LengthUnit targetUnit) {
+
+	    if (l1 == null || l2 == null) {
+	        throw new IllegalArgumentException("Operands cannot be null");
+	    }
+
+	    if (targetUnit == null) {
+	        throw new IllegalArgumentException("Target unit cannot be null");
+	    }
+
+	    if (!Double.isFinite(l1.getValue()) || !Double.isFinite(l2.getValue())) {
+	        throw new IllegalArgumentException("Values must be finite");
+	    }
+
+	    double base1 = l1.getUnit().toInches(l1.getValue());
+	    double base2 = l2.getUnit().toInches(l2.getValue());
+
+	    double sumBase = base1 + base2;
+
+	    double resultValue = sumBase / targetUnit.toInches(1.0);
+
+	    return new Length(resultValue, targetUnit);
+	}
 	public Length add(Length other) {
 		return add(this, other);
 	}

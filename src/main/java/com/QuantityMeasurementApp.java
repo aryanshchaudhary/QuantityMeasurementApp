@@ -132,6 +132,12 @@ public class QuantityMeasurementApp {
 		Length result = Length.add(l1, l2);
 		System.out.println("add(" + l1 + ", " + l2 + ") -> " + result);
 	}
+	
+	//UC 7
+	public static void demonstrateAdditionWithTargetUnit(Length l1, Length l2, Length.LengthUnit target) {
+	    Length result = Length.add(l1, l2, target);
+	    System.out.println("add(" + l1 + ", " + l2 + ", " + target + ") → " + result);
+	}
 
 	public static void main(String[] args) {
 
@@ -185,5 +191,21 @@ public class QuantityMeasurementApp {
 		demonstrateAddition(
 		        new Length(5.0, Length.LengthUnit.FEET),
 		        new Length(-2.0, Length.LengthUnit.FEET));
+		
+		//UC 7
+		demonstrateAdditionWithTargetUnit(
+		        new Length(1.0, Length.LengthUnit.FEET),
+		        new Length(12.0, Length.LengthUnit.INCHES),
+		        Length.LengthUnit.FEET);
+
+		demonstrateAdditionWithTargetUnit(
+		        new Length(1.0, Length.LengthUnit.FEET),
+		        new Length(12.0, Length.LengthUnit.INCHES),
+		        Length.LengthUnit.INCHES);
+
+		demonstrateAdditionWithTargetUnit(
+		        new Length(1.0, Length.LengthUnit.FEET),
+		        new Length(12.0, Length.LengthUnit.INCHES),
+		        Length.LengthUnit.YARDS);
 	}
 }
