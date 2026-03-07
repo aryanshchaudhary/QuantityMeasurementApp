@@ -207,5 +207,22 @@ public class QuantityMeasurementApp {
 		        new Length(1.0, LengthUnit.FEET),
 		        new Length(12.0, LengthUnit.INCHES),
 		        LengthUnit.YARDS);
+		
+		//UC 9
+		QuantityWeight w1 = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+		QuantityWeight w2 = new QuantityWeight(1000.0, WeightUnit.GRAM);
+
+		System.out.println("Weight equality: " + w1.equals(w2));
+
+		QuantityWeight converted = w1.convertTo(WeightUnit.GRAM);
+		System.out.println("Convert 1 kg to gram → " + converted);
+
+		QuantityWeight sum = QuantityWeight.add(w1, w2);
+		System.out.println("Addition (kg + g) → " + sum);
+
+		QuantityWeight sumTarget =
+		        QuantityWeight.add(w1, w2, WeightUnit.GRAM);
+
+		System.out.println("Addition with target unit → " + sumTarget);
 	}
 }
