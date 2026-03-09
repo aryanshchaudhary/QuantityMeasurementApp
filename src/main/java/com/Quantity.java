@@ -75,20 +75,11 @@ public class Quantity<U extends IMeasurable> {
 
     public Quantity<U> add(Quantity<U> other, U targetUnit) {
     	
-    	if (other == null) {
-    	    throw new IllegalArgumentException("Other quantity cannot be null");
-    	}
-    	
-    	if (targetUnit == null) {
-    	    throw new IllegalArgumentException("Target unit cannot be null");
-    	}
+    	validateArithmeticOperands(other, targetUnit, true);
 
-        double base1 = this.unit.convertToBaseUnit(this.value);
-        double base2 = other.unit.convertToBaseUnit(other.value);
+        double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
 
-        double sumBase = base1 + base2;
-
-        double result = targetUnit.convertFromBaseUnit(sumBase);
+        double result = targetUnit.convertFromBaseUnit(baseResult);
 
         return new Quantity<>(result, targetUnit);
     }
@@ -100,21 +91,11 @@ public class Quantity<U extends IMeasurable> {
     }
     public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
 
-        if (other == null)
-            throw new IllegalArgumentException("Other quantity cannot be null");
+    	validateArithmeticOperands(other, targetUnit, true);
 
-        if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
+    	double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
 
-        if (!this.unit.getClass().equals(other.unit.getClass()))
-            throw new IllegalArgumentException("Cannot subtract different measurement categories");
-
-        double base1 = this.unit.convertToBaseUnit(this.value);
-        double base2 = other.unit.convertToBaseUnit(other.value);
-
-        double resultBase = base1 - base2;
-
-        double result = targetUnit.convertFromBaseUnit(resultBase);
+    	double result = targetUnit.convertFromBaseUnit(baseResult);
 
         return new Quantity<>(result, targetUnit);
     }
@@ -122,19 +103,63 @@ public class Quantity<U extends IMeasurable> {
     //Division
     public double divide(Quantity<U> other) {
 
+    	validateArithmeticOperands(other, null, false);
+
+        return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
+    }
+    
+    @SuppressWarnings("unused")
+	private double roundToTwoDecimals(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
+    
+    //UC 13
+    private enum ArithmeticOperation {
+
+        ADD {
+            double compute(double a, double b) {
+                return a + b;
+            }
+        },
+
+        SUBTRACT {
+            double compute(double a, double b) {
+                return a - b;
+            }
+        },
+
+        DIVIDE {
+            double compute(double a, double b) {
+                if (b == 0)
+                    throw new ArithmeticException("Division by zero");
+                return a / b;
+            }
+        };
+
+        abstract double compute(double a, double b);
+    }
+    
+    private void validateArithmeticOperands(Quantity<U> other, U targetUnit, boolean targetRequired) {
+
         if (other == null)
             throw new IllegalArgumentException("Other quantity cannot be null");
 
         if (!this.unit.getClass().equals(other.unit.getClass()))
-            throw new IllegalArgumentException("Cannot divide different measurement categories");
+            throw new IllegalArgumentException("Different measurement categories");
+
+        if (!Double.isFinite(this.value) || !Double.isFinite(other.value))
+            throw new IllegalArgumentException("Values must be finite");
+
+        if (targetRequired && targetUnit == null)
+            throw new IllegalArgumentException("Target unit cannot be null");
+    }
+    
+    private double performBaseArithmetic(Quantity<U> other, ArithmeticOperation operation) {
 
         double base1 = this.unit.convertToBaseUnit(this.value);
         double base2 = other.unit.convertToBaseUnit(other.value);
 
-        if (base2 == 0)
-            throw new ArithmeticException("Division by zero");
-
-        return base1 / base2;
+        return operation.compute(base1, base2);
     }
 
     @Override
