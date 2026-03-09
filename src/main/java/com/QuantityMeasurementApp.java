@@ -224,5 +224,23 @@ public class QuantityMeasurementApp {
 		        w1.add(w2, WeightUnit.GRAM);
 
 		System.out.println("Addition with target unit → " + sumTarget);
+		
+		// UC 11 
+		Quantity<VolumeUnit> v1 = new Quantity<>(1.0, VolumeUnit.LITRE);
+		Quantity<VolumeUnit> v2 = new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+		Quantity<VolumeUnit> v3 = new Quantity<>(1.0, VolumeUnit.GALLON);
+
+		System.out.println("\nVolume equality (1L == 1000mL): " + v1.equals(v2));
+
+		Quantity<VolumeUnit> convertedVolume = v1.convertTo(VolumeUnit.MILLILITRE);
+		System.out.println("Convert 1L to mL → " + convertedVolume);
+
+		Quantity<VolumeUnit> sumVolume = v1.add(v2);
+		System.out.println("Addition (L + mL) → " + sumVolume);
+
+		Quantity<VolumeUnit> sumTargetVolume =
+		        v1.add(v3, VolumeUnit.MILLILITRE);
+
+		System.out.println("Addition with target unit → " + sumTargetVolume);
 	}
 }
