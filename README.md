@@ -12,7 +12,11 @@ QuantityMeasurementApp/
 |  ├──main
 |  |  |
 |  |  ├──QuantityMeasurementApp
-|  |  ├──Length
+|  |  ├──IMeasurable
+|  |  ├──LengthUnit
+|  |  ├──Quantity
+|  |  ├──VolumeUnit
+|  |  ├──WeightUnit
 |  |
 |  ├──test
 |  |  |
@@ -45,4 +49,27 @@ QuantityMeasurementApp/
   - UC5 extends UC4 by providing explicit conversion operations between length units (e.g., feet → inches, yards → inches, centimeters → feet). Instead of only comparing equality, the Quantity Length API exposes a conversion method that returns a numeric value converted from a source unit to a target unit using the centralized conversion factors.
   - https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/c5d11086059a39dbfbc9d09410ab1eee96315916
 --- 
-
+**UC6: Addition of Two Length Units**
+- UC6 extends UC5 by introducing addition operations between length measurements. This use case enables the Quantity Length API to add two lengths of potentially different units (but same category—length) and return the result in the unit of the first operand. Essentially adding another length to the current length. For example, adding 1 foot and 12 inches should yield 2 feet (based on the unit of the first operand).
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/b02a52cbae4017c4a0454060fbcb32194108c618
+---
+**UC7: Addition with Target Unit Specification**
+- UC7 extends UC6 by providing flexibility in specifying the unit for the addition result. Instead of defaulting to the unit of the first operand, this use case allows the caller to explicitly specify any supported unit as the target unit for the result. This provides greater flexibility in use cases where the result must be expressed in a specific unit regardless of the operands' units. For example, adding 1 foot and 12 inches with a target unit of yards should yield approximately 0.667 yards.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/3ac1d5dfe6f78cffcc4a44388d8d19d59800184b
+---
+**UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility**
+- UC8 refactors the design from UC1–UC7 to overcome the disadvantage of embedding the LengthUnit enum within the QuantityLength class. This design flaw creates circular dependencies when scaling to multiple measurement categories (length, weight, volume, etc.) and violates the Single Responsibility Principle by not centralizing unit-related conversion logic.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/136f2b8effabc1df4e4f84471fc58853e756f347
+---
+**UC9: Weight Measurement Equality, Conversion, and Addition**
+- UC9 extends the Quantity Measurement Application to support weight measurements alongside length measurements. This use case introduces a new measurement category—weight—that operates independently from length. Similar to how length measurements (feet, inches, yards, centimeters) are compared for equality, converted between units, and added together, weight measurements in different units (kilograms, grams, pounds) will support the same operations.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/a975d3c4ace042820a68ba2844c32c794b7776b1
+---
+**UC10: Generic Quantity Class with Unit Interface for Multi-Category Support**
+- UC10 addresses the architectural and design disadvantages introduced by UC9 by refactoring the design into a single, generic Quantity<U> class that works with any measurement category through a common IMeasurable interface. This use case eliminates code duplication across parallel QuantityLength and QuantityWeight classes, consolidates unit enum patterns, and simplifies the QuantityMeasurementApp class to adhere to the Single Responsibility Principle.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/884a0e224e134d2be1966ef0570d77f2af51df67
+--- 
+**UC11: Volume Measurement Equality, Conversion, and Addition (Litre, Millilitre, Gallon)**
+- UC11 extends the Quantity Measurement Application to support volume measurements alongside length and weight measurements. This use case introduces a new measurement category—volume—that operates independently from length and weight through the generic Quantity<U> class and IMeasurable interface established in UC10.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/dafede8b7f4203b2fbae16d23b07bb749435a902
+--- 
