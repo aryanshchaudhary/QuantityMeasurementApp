@@ -73,3 +73,15 @@ QuantityMeasurementApp/
 - UC11 extends the Quantity Measurement Application to support volume measurements alongside length and weight measurements. This use case introduces a new measurement category—volume—that operates independently from length and weight through the generic Quantity<U> class and IMeasurable interface established in UC10.
 - https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/dafede8b7f4203b2fbae16d23b07bb749435a902
 --- 
+**UC12: Subtraction and Division Operations on Quantity Measurements**
+- UC12 extends the Quantity Measurement Application by introducing two new arithmetic operations—subtraction and division—to the generic Quantity<U> class. Building on the foundation of equality comparison, unit conversion, and addition from UC1–UC11, this use case enables more comprehensive arithmetic manipulation of measurements.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/ace8f3fc62721e6f1d7251669379ce9077448655
+---
+**UC13: Centralized Arithmetic Logic to Enforce DRY in Quantity Operations**
+- UC13 refactors the arithmetic operations (addition, subtraction, division) implemented in UC12 to eliminate code duplication and enforce the DRY (Don't Repeat Yourself) principle. Instead of repeating unit conversion, base-unit normalization, and validation logic across multiple arithmetic methods, this use case introduces a centralized private helper method that encapsulates all common arithmetic logic.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/40226307ec59467acd41513f778edd78c7740a27
+---
+**UC14: Temperature Measurement with Selective Arithmetic Support and IMeasurable Refactoring**
+- UC14 extends the Quantity Measurement Application to support temperature measurements alongside length, weight, and volume. Unlike these three categories, which support full arithmetic operations (addition, subtraction, division), temperature presents a unique challenge: temperature differences can be added or subtracted, but individual temperature values cannot be meaningfully multiplied or divided in most practical contexts.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/2a7dbb0d1775a1aead83f1d92e9f84147f9c6321
+--- 
