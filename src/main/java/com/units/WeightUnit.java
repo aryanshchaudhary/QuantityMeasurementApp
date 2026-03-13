@@ -1,4 +1,4 @@
-package com;
+package com.units;
 
 public enum WeightUnit implements IMeasurable{
 	
