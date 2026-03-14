@@ -2,10 +2,16 @@ package com;
 
 import org.junit.jupiter.api.Test;
 
-import com.units.LengthUnit;
-import com.units.TemperatureUnit;
-import com.units.VolumeUnit;
-import com.units.WeightUnit;
+import com.app.quantitymeasurement.Quantity;
+import com.app.quantitymeasurement.unit.LengthUnit;
+import com.app.quantitymeasurement.unit.TemperatureUnit;
+import com.app.quantitymeasurement.unit.VolumeUnit;
+import com.app.quantitymeasurement.unit.WeightUnit;
+
+import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
+import com.app.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
+import com.app.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.app.quantitymeasurement.service.QuantityMeasurementServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -840,4 +846,138 @@ public class QuantityMeasurementAppTest {
 
         assertFalse(temp.equals(volume));
     }
+    
+ // UC16 DATABASE / REPOSITORY TESTS
+
+ @Test
+ void testRepository_SaveMeasurement() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     QuantityMeasurementEntity entity =
+             new QuantityMeasurementEntity(
+                     "ADD",
+                     "Quantity(1 FEET)",
+                     "Quantity(12 INCHES)",
+                     "Quantity(2 FEET)"
+             );
+
+     repo.save(entity);
+
+     assertEquals(1, repo.findAll().size());
+ }
+
+ @Test
+ void testRepository_FindAllMeasurements() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     repo.save(new QuantityMeasurementEntity(
+             "ADD",
+             "Quantity(1 FEET)",
+             "Quantity(12 INCHES)",
+             "Quantity(2 FEET)"
+     ));
+
+     repo.save(new QuantityMeasurementEntity(
+             "SUBTRACT",
+             "Quantity(10 FEET)",
+             "Quantity(6 INCHES)",
+             "Quantity(9.5 FEET)"
+     ));
+
+     assertEquals(2, repo.findAll().size());
+ }
+
+ @Test
+ void testRepository_DeleteAllMeasurements() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     repo.save(new QuantityMeasurementEntity(
+             "ADD",
+             "Quantity(1 FEET)",
+             "Quantity(12 INCHES)",
+             "Quantity(2 FEET)"
+     ));
+
+     repo.deleteAll();
+
+     assertTrue(repo.findAll().isEmpty());
+ }
+
+ @Test
+ void testService_IntegrationWithRepository() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     QuantityMeasurementServiceImpl service =
+             new QuantityMeasurementServiceImpl(repo);
+
+     // perform operation through service
+     service.add(
+             new com.app.quantitymeasurement.entity.QuantityDTO(1.0, "FEET"),
+             new com.app.quantitymeasurement.entity.QuantityDTO(12.0, "INCHES")
+     );
+
+     // verify repository stored result
+     assertEquals(1, repo.findAll().size());
+ }
+
+ @Test
+ void testRepository_MultipleOperationsStored() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     repo.save(new QuantityMeasurementEntity(
+             "ADD",
+             "Quantity(1 FEET)",
+             "Quantity(12 INCHES)",
+             "Quantity(2 FEET)"
+     ));
+
+     repo.save(new QuantityMeasurementEntity(
+             "DIVIDE",
+             "Quantity(10 FEET)",
+             "Quantity(2 FEET)",
+             "5"
+     ));
+
+     repo.save(new QuantityMeasurementEntity(
+             "SUBTRACT",
+             "Quantity(5 LITRE)",
+             "Quantity(500 ML)",
+             "Quantity(4.5 LITRE)"
+     ));
+
+     assertEquals(3, repo.findAll().size());
+ }
+
+ @Test
+ void testRepository_EmptyInitially() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     assertTrue(repo.findAll().isEmpty());
+ }
+
+ @Test
+ void testRepository_SaveErrorMeasurement() {
+
+     IQuantityMeasurementRepository repo =
+             new QuantityMeasurementCacheRepository();
+
+     QuantityMeasurementEntity entity =
+             new QuantityMeasurementEntity("Division by zero");
+
+     repo.save(entity);
+
+     assertEquals(1, repo.findAll().size());
+ }
 }

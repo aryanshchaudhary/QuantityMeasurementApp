@@ -1,11 +1,13 @@
-package com.repository;
+package com.app.quantitymeasurement.repository;
 
-import com.entity.QuantityMeasurementEntity;
 import java.util.List;
+import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
 
 public interface IQuantityMeasurementRepository {
 
     void save(QuantityMeasurementEntity entity);
 
     List<QuantityMeasurementEntity> findAll();
+    
+    void deleteAll();
 }
