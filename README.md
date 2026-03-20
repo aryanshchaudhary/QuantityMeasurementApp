@@ -15,6 +15,7 @@ QuantityMeasurementApp/
 |  |  |  |
 |  |  |  ├──Quantity
 |  |  |  ├──QuantityMeasurementApp
+|  |  |  ├──QuantityDemo
 |  |  |  |
 |  |  |  ├──controller
 |  |  |  |  |
@@ -34,8 +35,6 @@ QuantityMeasurementApp/
 |  |  |  ├──repository
 |  |  |  |  |
 |  |  |  |  ├──IQuantityMeasurementRepository
-|  |  |  |  ├──QuantityMeasurementCacheRepository
-|  |  |  |  ├──QuantityMeasurementDatabaseRepository
 |  |  |  |
 |  |  |  ├──service
 |  |  |  |  |
@@ -49,11 +48,6 @@ QuantityMeasurementApp/
 |  |  |  |  ├──TemperatureUnit
 |  |  |  |  ├──VolumeUnit
 |  |  |  |  ├──WeightUnit
-|  |  |  |
-|  |  |  ├──util
-|  |  |  |  |
-|  |  |  |  ├──ApplicationConfig
-|  |  |  |  ├──ConnectionPool
 |  |  |
 |  |  ├──resources
 |  |  |  |
@@ -136,4 +130,8 @@ QuantityMeasurementApp/
 **UC16: Database Integration with JDBC for Quantity Measurement Persistence**
 - UC16 extends the Quantity Measurement Application by introducing persistent database storage through JDBC (Java Database Connectivity). Building upon the N-Tier architecture established in UC15, this use case implements a QuantityMeasurementDatabaseRepository class that replaces the in-memory QuantityMeasurementCacheRepository for long-term data persistence. The application now supports storing and retrieving quantity measurement operation history from a relational database, enabling audit trails, reporting, and historical analysis.
 - https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/f8821cb8cf50ec9c78bf0d81ab20d1c590f6dfde
+--- 
+**UC17: Spring Framework Integration**
+- UC17 transforms the standalone Quantity Measurement Application into a Spring Boot-based REST service by leveraging Spring Framework's powerful ecosystem. This use case maintains all existing business logic, entities, and architectural patterns while modernizing the persistence layer with Spring Data JPA and exposing functionality through RESTful HTTP endpoints.
+- https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/418280c862e570f85a8b2bc8e6c774483aed6062
 --- 
