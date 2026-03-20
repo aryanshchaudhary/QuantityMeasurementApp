@@ -1,16 +1,23 @@
 package com.app.quantitymeasurement.entity;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
-public class QuantityMeasurementEntity implements Serializable {
+@Entity
+@Table(name = "quantity_measurement")
+public class QuantityMeasurementEntity {
 
-    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String operation;
     private String operand1;
     private String operand2;
     private String result;
     private String error;
+
+    public QuantityMeasurementEntity() {
+    }
 
     public QuantityMeasurementEntity(String operation, String op1, String op2, String result) {
         this.operation = operation;
@@ -27,14 +34,10 @@ public class QuantityMeasurementEntity implements Serializable {
         return error != null;
     }
 
-    public String getResult() {
-        return result;
+    public Long getId() {
+        return id;
     }
 
-    public String getError() {
-        return error;
-    }
-    
     public String getOperation() {
         return operation;
     }
@@ -46,16 +49,36 @@ public class QuantityMeasurementEntity implements Serializable {
     public String getOperand2() {
         return operand2;
     }
-    
-    @Override
-    public String toString() {
-        if (error != null) {
-            return "Error: " + error;
-        }
 
-        return "Operation=" + operation +
-               ", Operand1=" + operand1 +
-               ", Operand2=" + operand2 +
-               ", Result=" + result;
+    public String getResult() {
+        return result;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public void setOperand1(String operand1) {
+        this.operand1 = operand1;
+    }
+
+    public void setOperand2(String operand2) {
+        this.operand2 = operand2;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }
