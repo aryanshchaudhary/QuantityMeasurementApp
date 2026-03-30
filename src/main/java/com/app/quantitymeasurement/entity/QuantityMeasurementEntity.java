@@ -67,6 +67,9 @@ public class QuantityMeasurementEntity {
         this.error = error;
     }
 
+    public boolean hasError() {
+        return error != null;
+    }
 
     public Long getId() {
         return id;
@@ -118,5 +121,27 @@ public class QuantityMeasurementEntity {
 
     public void setUser(User user) {
         this.user = user;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public void setOperand1(String operand1) {
+        this.operand1 = operand1;
+    }
+
+    public void setOperand2(String operand2) {
+        this.operand2 = operand2;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }
