@@ -1,4 +1,4 @@
-package com;
+package com.units;
 
 public enum VolumeUnit implements IMeasurable {
 

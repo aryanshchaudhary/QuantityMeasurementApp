@@ -1,5 +1,7 @@
 package com;
 
+import com.units.IMeasurable;
+
 public class Quantity<U extends IMeasurable> {
 
     private final double value;
