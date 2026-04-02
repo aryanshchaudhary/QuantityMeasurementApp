@@ -1,8 +1,9 @@
-package com.repository;
+package com.app.quantitymeasurement.repository;
 
-import com.entity.QuantityMeasurementEntity;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
 
 public class QuantityMeasurementCacheRepository
         implements IQuantityMeasurementRepository {
@@ -11,7 +12,7 @@ public class QuantityMeasurementCacheRepository
 
     private List<QuantityMeasurementEntity> cache = new ArrayList<>();
 
-    private QuantityMeasurementCacheRepository() {}
+    public QuantityMeasurementCacheRepository() {}
 
     public static QuantityMeasurementCacheRepository getInstance() {
         if (instance == null) {
@@ -28,5 +29,9 @@ public class QuantityMeasurementCacheRepository
     @Override
     public List<QuantityMeasurementEntity> findAll() {
         return cache;
+    }
+    @Override
+    public void deleteAll() {
+        cache.clear();
     }
 }

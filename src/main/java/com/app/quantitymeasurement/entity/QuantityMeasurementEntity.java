@@ -1,4 +1,4 @@
-package com.entity;
+package com.app.quantitymeasurement.entity;
 
 import java.io.Serializable;
 
@@ -33,5 +33,29 @@ public class QuantityMeasurementEntity implements Serializable {
 
     public String getError() {
         return error;
+    }
+    
+    public String getOperation() {
+        return operation;
+    }
+
+    public String getOperand1() {
+        return operand1;
+    }
+
+    public String getOperand2() {
+        return operand2;
+    }
+    
+    @Override
+    public String toString() {
+        if (error != null) {
+            return "Error: " + error;
+        }
+
+        return "Operation=" + operation +
+               ", Operand1=" + operand1 +
+               ", Operand2=" + operand2 +
+               ", Result=" + result;
     }
 }

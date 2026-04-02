@@ -1,11 +1,15 @@
-package com.app;
+package com.app.quantitymeasurement;
 
-import com.Quantity;
-import com.units.IMeasurable;
-import com.units.LengthUnit;
-import com.units.TemperatureUnit;
-import com.units.VolumeUnit;
-import com.units.WeightUnit;
+import com.app.quantitymeasurement.unit.IMeasurable;
+import com.app.quantitymeasurement.unit.LengthUnit;
+import com.app.quantitymeasurement.unit.TemperatureUnit;
+import com.app.quantitymeasurement.unit.VolumeUnit;
+import com.app.quantitymeasurement.unit.WeightUnit;
+import com.app.quantitymeasurement.Quantity;
+import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
+import com.app.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.app.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
+import com.app.quantitymeasurement.service.QuantityMeasurementServiceImpl;
 
 public class QuantityMeasurementApp {
 
@@ -167,6 +171,12 @@ public class QuantityMeasurementApp {
 	}
 
 	public static void main(String[] args) {
+		
+		 IQuantityMeasurementRepository repository =
+		            new QuantityMeasurementCacheRepository();
+
+		    QuantityMeasurementServiceImpl service =
+		            new QuantityMeasurementServiceImpl(repository);
 
 		System.out.println("Input: 1.0 ft and 1.0 ft");
 		System.out.println("Output: Equal (" + checkFeetEquality(1.0, 1.0) + ")");
@@ -313,5 +323,20 @@ public class QuantityMeasurementApp {
 
 		System.out.println("Convert C → F: " +
 		        t1.convertTo(TemperatureUnit.FAHRENHEIT));
+		
+		QuantityMeasurementEntity entity =
+		        new QuantityMeasurementEntity(
+		                "ADD",
+		                "Quantity(1 FEET)",
+		                "Quantity(12 INCHES)",
+		                "Quantity(2 FEET)"
+		        );
+
+		repository.save(entity);
+		
+		System.out.println("\nStored Measurements");
+		System.out.println(repository.findAll());
+		
+		
 	}
 }
