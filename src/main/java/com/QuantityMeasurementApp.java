@@ -125,5 +125,10 @@ public class QuantityMeasurementApp {
 
 		System.out.println("\nInput: 1.0 ft and 12.0 inch");
 		System.out.println("Output: Equal (" + checkFeetAndInchesEquality(1.0, 12.0) + ")");
+		
+		Length l1 = new Length(1.0, Length.LengthUnit.FEET);
+		Length l2 = new Length(12.0, Length.LengthUnit.INCHES);
+
+		System.out.println("UC3 (Generic Length): " + l1.equals(l2));
 	}
 }
