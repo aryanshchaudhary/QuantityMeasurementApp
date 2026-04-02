@@ -113,7 +113,12 @@ public class Length {
 
 		Length other = (Length) obj;
 
-		return Double.compare(this.convertToBaseUnit(), other.convertToBaseUnit()) == 0;
+		double diff = Math.abs(
+		        this.convertToBaseUnit() -
+		        other.convertToBaseUnit()
+		);
+
+		return diff < 1e-6;
 	}
 
 	@Override
