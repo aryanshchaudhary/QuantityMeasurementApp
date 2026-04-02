@@ -6,7 +6,7 @@ public interface IQuantityMeasurementService {
 
     boolean compare(QuantityDTO q1, QuantityDTO q2);
 
-    QuantityDTO convert(QuantityDTO quantity, String targetUnit);
+    QuantityDTO convert(QuantityDTO q, String targetUnit);
 
     QuantityDTO add(QuantityDTO q1, QuantityDTO q2);
 

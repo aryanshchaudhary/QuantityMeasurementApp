@@ -1,8 +1,12 @@
 package com.app.quantitymeasurement.controller;
 
+import org.springframework.web.bind.annotation.*;
+
 import com.app.quantitymeasurement.entity.QuantityDTO;
 import com.app.quantitymeasurement.service.IQuantityMeasurementService;
 
+@RestController
+@RequestMapping("/quantity")
 public class QuantityMeasurementController {
 
     private final IQuantityMeasurementService service;
@@ -11,28 +15,29 @@ public class QuantityMeasurementController {
         this.service = service;
     }
 
-    public void performComparison(QuantityDTO q1, QuantityDTO q2) {
-        boolean result = service.compare(q1, q2);
-        System.out.println("Equal: " + result);
+    @PostMapping("/compare")
+    public boolean compare(@RequestBody QuantityDTO[] quantities) {
+        return service.compare(quantities[0], quantities[1]);
     }
 
-    public void performAddition(QuantityDTO q1, QuantityDTO q2) {
-        QuantityDTO result = service.add(q1, q2);
-        System.out.println("Result: " + result.getValue() + " " + result.getUnit());
-    }
-    
-    public void performSubtraction(QuantityDTO q1, QuantityDTO q2) {
-
-        QuantityDTO result = service.subtract(q1, q2);
-
-        System.out.println("Subtraction Result: " +
-                result.getValue() + " " + result.getUnit());
+    @PostMapping("/add")
+    public QuantityDTO add(@RequestBody QuantityDTO[] quantities) {
+        return service.add(quantities[0], quantities[1]);
     }
 
-    public void performDivision(QuantityDTO q1, QuantityDTO q2) {
+    @PostMapping("/subtract")
+    public QuantityDTO subtract(@RequestBody QuantityDTO[] quantities) {
+        return service.subtract(quantities[0], quantities[1]);
+    }
 
-        double result = service.divide(q1, q2);
+    @PostMapping("/divide")
+    public double divide(@RequestBody QuantityDTO[] quantities) {
+        return service.divide(quantities[0], quantities[1]);
+    }
 
-        System.out.println("Division Result: " + result);
+    @PostMapping("/convert")
+    public QuantityDTO convert(@RequestBody QuantityDTO quantity,
+                               @RequestParam String targetUnit) {
+        return service.convert(quantity, targetUnit);
     }
 }
