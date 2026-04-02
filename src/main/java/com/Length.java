@@ -6,6 +6,14 @@ public class Length {
 
 	private final double value;
 	private final LengthUnit unit;
+	
+	public double getValue() {
+		return value;
+	}
+	
+	public LengthUnit getUnit() {
+		return unit;
+	}
 
 	public enum LengthUnit {
 		FEET(12.0), INCHES(1.0), YARDS(36.0), CENTIMETERS(0.393701);
@@ -33,6 +41,29 @@ public class Length {
 
 		this.value = value;
 		this.unit = unit;
+	}
+	
+	//UC 6
+	public static Length add(Length l1, Length l2) {
+		if(l1 == null || l2 == null) {
+			throw new IllegalArgumentException("Operand cannot be null");
+		}
+		if(!Double.isFinite(l1.value) || !Double.isFinite(l2.value)) {
+			throw new IllegalArgumentException("Values must be finite");
+		}
+		
+		double base1 = l1.unit.toInches(l1.value);
+	    double base2 = l2.unit.toInches(l2.value);
+
+	    double sumBase = base1 + base2;
+	    
+	    double resultValue =
+	            sumBase / l1.unit.toInches(1.0);
+
+	    return new Length(resultValue, l1.unit);
+	}
+	public Length add(Length other) {
+		return add(this, other);
 	}
 
 	private double convertToBaseUnit() {
