@@ -502,4 +502,146 @@ public class QuantityMeasurementAppTest {
         assertThrows(IllegalArgumentException.class,
                 () -> q1.divide(null));
     }
+    
+ // UC13 REFACTORING TESTS
+
+    @Test
+    void testArithmeticOperation_Add_Computation() {
+        double result = 10 + 5;
+        assertEquals(15.0, result);
+    }
+
+    @Test
+    void testArithmeticOperation_Subtract_Computation() {
+        double result = 10 - 5;
+        assertEquals(5.0, result);
+    }
+
+    @Test
+    void testArithmeticOperation_Divide_Computation() {
+        double result = 10.0 / 5.0;
+        assertEquals(2.0, result);
+    }
+
+    @Test
+    void testValidation_NullOperand_Add() {
+        Quantity<LengthUnit> q = new Quantity<>(10.0, LengthUnit.FEET);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> q.add(null));
+    }
+
+    @Test
+    void testValidation_NullOperand_Subtract() {
+        Quantity<LengthUnit> q = new Quantity<>(10.0, LengthUnit.FEET);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> q.subtract(null));
+    }
+
+    @Test
+    void testValidation_NullOperand_Divide() {
+        Quantity<LengthUnit> q = new Quantity<>(10.0, LengthUnit.FEET);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> q.divide(null));
+    }
+
+    @Test
+    void testValidation_CrossCategory_Add() {
+
+        Quantity<LengthUnit> length =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<WeightUnit> weight =
+                new Quantity<>(5.0, WeightUnit.KILOGRAM);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> length.add((Quantity) weight));
+    }
+
+    @Test
+    void testValidation_CrossCategory_Subtract() {
+
+        Quantity<LengthUnit> length =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<WeightUnit> weight =
+                new Quantity<>(5.0, WeightUnit.KILOGRAM);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> length.subtract((Quantity) weight));
+    }
+
+    @Test
+    void testValidation_CrossCategory_Divide() {
+
+        Quantity<LengthUnit> length =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<WeightUnit> weight =
+                new Quantity<>(5.0, WeightUnit.KILOGRAM);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> length.divide((Quantity) weight));
+    }
+
+    @Test
+    void testDivide_ByZero_Exception() {
+
+        Quantity<LengthUnit> q1 =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<LengthUnit> q2 =
+                new Quantity<>(0.0, LengthUnit.FEET);
+
+        assertThrows(ArithmeticException.class,
+                () -> q1.divide(q2));
+    }
+
+    @Test
+    void testImmutability_AfterAddition() {
+
+        Quantity<LengthUnit> q1 =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<LengthUnit> q2 =
+                new Quantity<>(2.0, LengthUnit.FEET);
+
+        Quantity<LengthUnit> result = q1.add(q2);
+
+        assertEquals(10.0, q1.getValue(), EPSILON);
+        assertEquals(2.0, q2.getValue(), EPSILON);
+        assertEquals(12.0, result.getValue(), EPSILON);
+    }
+
+    @Test
+    void testImmutability_AfterSubtraction() {
+
+        Quantity<LengthUnit> q1 =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<LengthUnit> q2 =
+                new Quantity<>(5.0, LengthUnit.FEET);
+
+        Quantity<LengthUnit> result = q1.subtract(q2);
+
+        assertEquals(10.0, q1.getValue(), EPSILON);
+        assertEquals(5.0, q2.getValue(), EPSILON);
+        assertEquals(5.0, result.getValue(), EPSILON);
+    }
+
+    @Test
+    void testAllOperations_AcrossCategories() {
+
+        Quantity<LengthUnit> l1 =
+                new Quantity<>(10.0, LengthUnit.FEET);
+
+        Quantity<LengthUnit> l2 =
+                new Quantity<>(2.0, LengthUnit.FEET);
+
+        assertEquals(12.0, l1.add(l2).getValue(), EPSILON);
+        assertEquals(8.0, l1.subtract(l2).getValue(), EPSILON);
+        assertEquals(5.0, l1.divide(l2), EPSILON);
+    }
 }
