@@ -48,8 +48,6 @@ QuantityMeasurementApp/
 |  |  |  |  ├──TemperatureUnit
 |  |  |  |  ├──VolumeUnit
 |  |  |  |  ├──WeightUnit
-<<<<<<< HEAD
-=======
 |  |  |  |
 |  |  |  ├──user
 |  |  |  |  |
@@ -61,7 +59,6 @@ QuantityMeasurementApp/
 |  |  |  |  ├──RegisterRequest
 |  |  |  |  ├──User
 |  |  |  |  ├──UserRepository
->>>>>>> 94c722b396a07fc9db857339a43cc0428173b040
 |  |  |
 |  |  ├──resources
 |  |  |  |
@@ -149,10 +146,7 @@ QuantityMeasurementApp/
 - UC17 transforms the standalone Quantity Measurement Application into a Spring Boot-based REST service by leveraging Spring Framework's powerful ecosystem. This use case maintains all existing business logic, entities, and architectural patterns while modernizing the persistence layer with Spring Data JPA and exposing functionality through RESTful HTTP endpoints.
 - https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/418280c862e570f85a8b2bc8e6c774483aed6062
 --- 
-<<<<<<< HEAD
-=======
 **UC18: Spring Security/Google Authentication**
 - Implemented authentication and authorization using Spring Security, ensuring secure access to application endpoints. Integrated Google Authentication (OAuth 2.0) to enable users to sign in seamlessly with their Google accounts. Applied role-based access control and token-based security for protected resources.
 - https://github.com/aryanshchaudhary/QuantityMeasurementApp/commit/4850d7ff65a129f0ff6089ace660ad8df699f84a
 --- 
->>>>>>> 94c722b396a07fc9db857339a43cc0428173b040
