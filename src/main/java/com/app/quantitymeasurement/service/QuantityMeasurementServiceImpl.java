@@ -1,9 +1,14 @@
 package com.app.quantitymeasurement.service;
 
+import org.springframework.stereotype.Service;
+
+import com.app.quantitymeasurement.Quantity;
 import com.app.quantitymeasurement.entity.QuantityDTO;
 import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
 import com.app.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.app.quantitymeasurement.unit.LengthUnit;
 
+@Service
 public class QuantityMeasurementServiceImpl
         implements IQuantityMeasurementService {
 
@@ -13,20 +18,27 @@ public class QuantityMeasurementServiceImpl
         this.repository = repo;
     }
 
+    private Quantity<LengthUnit> toQuantity(QuantityDTO dto) {
+        return new Quantity<>(
+                dto.getValue(),
+                LengthUnit.valueOf(dto.getUnit())
+        );
+    }
+
     @Override
     public boolean compare(QuantityDTO q1, QuantityDTO q2) {
 
-        boolean result = q1.getValue() == q2.getValue();
+        Quantity<LengthUnit> quantity1 = toQuantity(q1);
+        Quantity<LengthUnit> quantity2 = toQuantity(q2);
 
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "COMPARE",
-                        q1.toString(),
-                        q2.toString(),
-                        String.valueOf(result)
-                );
+        boolean result = quantity1.equals(quantity2);
 
-        repository.save(entity);   //  UC16 DATABASE SAVE
+        repository.save(new QuantityMeasurementEntity(
+                "COMPARE",
+                q1.toString(),
+                q2.toString(),
+                String.valueOf(result)
+        ));
 
         return result;
     }
@@ -34,73 +46,80 @@ public class QuantityMeasurementServiceImpl
     @Override
     public QuantityDTO convert(QuantityDTO q, String targetUnit) {
 
-        QuantityDTO result = new QuantityDTO(q.getValue(), targetUnit);
+        Quantity<LengthUnit> quantity = toQuantity(q);
 
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "CONVERT",
-                        q.toString(),
-                        targetUnit,
-                        result.toString()
-                );
+        Quantity<LengthUnit> result =
+                quantity.convertTo(LengthUnit.valueOf(targetUnit));
 
-        repository.save(entity);
+        repository.save(new QuantityMeasurementEntity(
+                "CONVERT",
+                q.toString(),
+                targetUnit,
+                result.toString()
+        ));
 
-        return result;
+        return new QuantityDTO(
+                result.getValue(),
+                result.getUnit().name()
+        );
     }
 
     @Override
     public QuantityDTO add(QuantityDTO q1, QuantityDTO q2) {
 
-        QuantityDTO result =
-                new QuantityDTO(q1.getValue() + q2.getValue(), q1.getUnit());
+        Quantity<LengthUnit> quantity1 = toQuantity(q1);
+        Quantity<LengthUnit> quantity2 = toQuantity(q2);
 
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "ADD",
-                        q1.toString(),
-                        q2.toString(),
-                        result.toString()
-                );
+        Quantity<LengthUnit> result = quantity1.add(quantity2);
 
-        repository.save(entity);
+        repository.save(new QuantityMeasurementEntity(
+                "ADD",
+                q1.toString(),
+                q2.toString(),
+                result.toString()
+        ));
 
-        return result;
+        return new QuantityDTO(
+                result.getValue(),
+                result.getUnit().name()
+        );
     }
 
     @Override
     public QuantityDTO subtract(QuantityDTO q1, QuantityDTO q2) {
 
-        QuantityDTO result =
-                new QuantityDTO(q1.getValue() - q2.getValue(), q1.getUnit());
+        Quantity<LengthUnit> quantity1 = toQuantity(q1);
+        Quantity<LengthUnit> quantity2 = toQuantity(q2);
 
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "SUBTRACT",
-                        q1.toString(),
-                        q2.toString(),
-                        result.toString()
-                );
+        Quantity<LengthUnit> result = quantity1.subtract(quantity2);
 
-        repository.save(entity);
+        repository.save(new QuantityMeasurementEntity(
+                "SUBTRACT",
+                q1.toString(),
+                q2.toString(),
+                result.toString()
+        ));
 
-        return result;
+        return new QuantityDTO(
+                result.getValue(),
+                result.getUnit().name()
+        );
     }
 
     @Override
     public double divide(QuantityDTO q1, QuantityDTO q2) {
 
-        double result = q1.getValue() / q2.getValue();
+        Quantity<LengthUnit> quantity1 = toQuantity(q1);
+        Quantity<LengthUnit> quantity2 = toQuantity(q2);
 
-        QuantityMeasurementEntity entity =
-                new QuantityMeasurementEntity(
-                        "DIVIDE",
-                        q1.toString(),
-                        q2.toString(),
-                        String.valueOf(result)
-                );
+        double result = quantity1.divide(quantity2);
 
-        repository.save(entity);
+        repository.save(new QuantityMeasurementEntity(
+                "DIVIDE",
+                q1.toString(),
+                q2.toString(),
+                String.valueOf(result)
+        ));
 
         return result;
     }
