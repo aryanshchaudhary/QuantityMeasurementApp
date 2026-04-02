@@ -295,5 +295,16 @@ public class QuantityMeasurementApp {
 		Quantity<VolumeUnit> d6 = new Quantity<>(1.0, VolumeUnit.LITRE);
 
 		System.out.println("Division (mL/L): " + d5.divide(d6));
+		
+		Quantity<TemperatureUnit> t1 =
+		        new Quantity<>(0.0, TemperatureUnit.CELSIUS);
+
+		Quantity<TemperatureUnit> t2 =
+		        new Quantity<>(32.0, TemperatureUnit.FAHRENHEIT);
+
+		System.out.println("Temperature equality: " + t1.equals(t2));
+
+		System.out.println("Convert C → F: " +
+		        t1.convertTo(TemperatureUnit.FAHRENHEIT));
 	}
 }
