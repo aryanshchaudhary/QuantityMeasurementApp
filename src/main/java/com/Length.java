@@ -15,20 +15,6 @@ public class Length {
 		return unit;
 	}
 
-	public enum LengthUnit {
-		FEET(12.0), INCHES(1.0), YARDS(36.0), CENTIMETERS(0.393701);
-
-		private final double conversionFactorToInches;
-
-		LengthUnit(double conversionFactorToInches) {
-			this.conversionFactorToInches = conversionFactorToInches;
-		}
-
-		public double toInches(double value) {
-			return value * conversionFactorToInches;
-		}
-	}
-
 	public Length(double value, LengthUnit unit) {
 
 		if (Double.isNaN(value) || Double.isInfinite(value)) {
@@ -48,19 +34,16 @@ public class Length {
 		if(l1 == null || l2 == null) {
 			throw new IllegalArgumentException("Operand cannot be null");
 		}
-		if(!Double.isFinite(l1.value) || !Double.isFinite(l2.value)) {
-			throw new IllegalArgumentException("Values must be finite");
-		}
 		
-		double base1 = l1.unit.toInches(l1.value);
-	    double base2 = l2.unit.toInches(l2.value);
+		
+		double base1 = l1.getUnit().convertToBaseUnit(l1.getValue());
+	    double base2 = l2.getUnit().convertToBaseUnit(l2.getValue());
 
 	    double sumBase = base1 + base2;
 	    
-	    double resultValue =
-	            sumBase / l1.unit.toInches(1.0);
+	    double result = l1.getUnit().convertFromBaseUnit(sumBase);
 
-	    return new Length(resultValue, l1.unit);
+	    return new Length(result, l1.getUnit());
 	}
 	
 	// UC 7
@@ -78,21 +61,21 @@ public class Length {
 	        throw new IllegalArgumentException("Values must be finite");
 	    }
 
-	    double base1 = l1.getUnit().toInches(l1.getValue());
-	    double base2 = l2.getUnit().toInches(l2.getValue());
+	    double base1 = l1.getUnit().convertToBaseUnit(l1.getValue());
+	    double base2 = l2.getUnit().convertToBaseUnit(l2.getValue());
 
 	    double sumBase = base1 + base2;
 
-	    double resultValue = sumBase / targetUnit.toInches(1.0);
+	    double result = targetUnit.convertFromBaseUnit(sumBase);
 
-	    return new Length(resultValue, targetUnit);
+	    return new Length(result, targetUnit);
 	}
 	public Length add(Length other) {
 		return add(this, other);
 	}
 
 	private double convertToBaseUnit() {
-		return unit.toInches(value);
+		return unit.convertToBaseUnit(value);
 	}
 	
 	public static double convert(double value, LengthUnit source, LengthUnit target) {
@@ -104,18 +87,20 @@ public class Length {
 			throw new IllegalArgumentException("Units cannot be null");
 		}
 		
-		double baseValue = source.toInches(value);
+		double baseValue = source.convertToBaseUnit(value);
 		
-		return baseValue / target.toInches(1.0);
+		return baseValue / target.convertToBaseUnit(1.0);
 	}
 	
 	public Length convertTo(LengthUnit targetUnit) {
 		if(targetUnit == null) {
 			throw new IllegalArgumentException("Target unit cannot be null");
 		}
-		double convertedValue = convert(this.value, this.unit, targetUnit);
+		double baseValue = unit.convertToBaseUnit(value);
 		
-		return new Length(convertedValue, targetUnit);
+		double converted = targetUnit.convertFromBaseUnit(baseValue);
+		
+		return new Length(converted, targetUnit);
 	}
 
 	@Override
