@@ -59,6 +59,13 @@ QuantityMeasurementApp/
 |  |  |  |  ├──RegisterRequest
 |  |  |  |  ├──User
 |  |  |  |  ├──UserRepository
+|  |  |  |
+|  |  |  ├──config
+|  |  |  |  |
+|  |  |  |  ├──JwtAuthentication
+|  |  |  |  ├──JwtUtil
+|  |  |  |  ├──PasswordConfig
+|  |  |  |  ├──SecurityConfig
 |  |  |
 |  |  ├──resources
 |  |  |  |
