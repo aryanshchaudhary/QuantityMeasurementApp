@@ -75,6 +75,8 @@ public class Quantity<U extends IMeasurable> {
 
     public Quantity<U> add(Quantity<U> other, U targetUnit) {
     	
+    	unit.validateOperationSupport("addition");
+    	
     	validateArithmeticOperands(other, targetUnit, true);
 
         double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
@@ -90,6 +92,8 @@ public class Quantity<U extends IMeasurable> {
     	return subtract(other, this.unit);
     }
     public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
+    	
+    	unit.validateOperationSupport("subtraction");
 
     	validateArithmeticOperands(other, targetUnit, true);
 
@@ -102,6 +106,8 @@ public class Quantity<U extends IMeasurable> {
     
     //Division
     public double divide(Quantity<U> other) {
+    	
+    	unit.validateOperationSupport("division");
 
     	validateArithmeticOperands(other, null, false);
 
