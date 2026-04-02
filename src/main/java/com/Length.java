@@ -4,63 +4,61 @@ import java.util.Objects;
 
 public class Length {
 
-    private final double value;
-    private final LengthUnit unit;
+	private final double value;
+	private final LengthUnit unit;
 
-    public enum LengthUnit {
-        FEET(12.0),     
-        INCHES(1.0);    
-    	
-        private final double conversionFactor;
+	public enum LengthUnit {
+		FEET(12.0), INCHES(1.0), YARDS(36.0), CENTIMETERS(0.393701);
 
-        LengthUnit(double conversionFactor) {
-            this.conversionFactor = conversionFactor;
-        }
+		private final double conversionFactorToInches;
 
-        public double getConversionFactor() {
-            return conversionFactor;
-        }
-    }
+		LengthUnit(double conversionFactorToInches) {
+			this.conversionFactorToInches = conversionFactorToInches;
+		}
 
-    public Length(double value, LengthUnit unit) {
+		public double toInches(double value) {
+			return value * conversionFactorToInches;
+		}
+	}
 
-        if (Double.isNaN(value) || Double.isInfinite(value)) {
-            throw new IllegalArgumentException("Value must be numeric");
-        }
+	public Length(double value, LengthUnit unit) {
 
-        if (unit == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
+		if (Double.isNaN(value) || Double.isInfinite(value)) {
+			throw new IllegalArgumentException("Value must be numeric");
+		}
 
-        this.value = value;
-        this.unit = unit;
-    }
+		if (unit == null) {
+			throw new IllegalArgumentException("Unit cannot be null");
+		}
 
-    private double convertToBaseUnit() {
-        return this.value * this.unit.getConversionFactor();
-    }
+		this.value = value;
+		this.unit = unit;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
+	private double convertToBaseUnit() {
+		return unit.toInches(value);
+	}
 
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+	@Override
+	public boolean equals(Object obj) {
 
-        Length other = (Length) obj;
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
 
-        return Double.compare(
-                this.convertToBaseUnit(),
-                other.convertToBaseUnit()
-        ) == 0;
-    }
+		Length other = (Length) obj;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(convertToBaseUnit());
-    }
+		return Double.compare(this.convertToBaseUnit(), other.convertToBaseUnit()) == 0;
+	}
 
-    @Override
-    public String toString() {
-        return "Length(" + value + ", " + unit + ")";
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(convertToBaseUnit());
+	}
+
+	@Override
+	public String toString() {
+		return "Length(" + value + ", " + unit + ")";
+	}
 }
