@@ -114,28 +114,28 @@ public class QuantityMeasurementApp {
 	
 	public static void demonstrateLengthConversion(double value, LengthUnit from, 
 			LengthUnit to) {
-		double result = Length.convert(value, from, to);
+		Quantity<LengthUnit> q = new Quantity<>(value, from);
+	    Quantity<LengthUnit> result = q.convertTo(to);
 		
-		System.out.println("convert(" + value + ", " + from +
-				", " + to + ") -> " + result);
+	    System.out.println("convert(" + value + ", " + from + ", " + to + ") -> " + result);
 	}
 	
-	public static void demonstrateLengthConversion(Length length,
+	public static void demonstrateLengthConversion(Quantity<LengthUnit> length,
 			LengthUnit target) {
-		Length converted = length.convertTo(target);
+		Quantity<LengthUnit> converted = length.convertTo(target);
 		
 		System.out.println(length + "-> " + converted);
 	}
 	
 	//UC 6
-	public static void demonstrateAddition(Length l1, Length l2) {
-		Length result = Length.add(l1, l2);
+	public static void demonstrateAddition(Quantity<LengthUnit> l1, Quantity<LengthUnit> l2) {
+		Quantity<LengthUnit> result = l1.add(l2);
 		System.out.println("add(" + l1 + ", " + l2 + ") -> " + result);
 	}
 	
 	//UC 7
-	public static void demonstrateAdditionWithTargetUnit(Length l1, Length l2, LengthUnit target) {
-	    Length result = Length.add(l1, l2, target);
+	public static void demonstrateAdditionWithTargetUnit(Quantity<LengthUnit> l1, Quantity<LengthUnit> l2, LengthUnit target) {
+		Quantity<LengthUnit> result = l1.add(l2, target);
 	    System.out.println("add(" + l1 + ", " + l2 + ", " + target + ") → " + result);
 	}
 
@@ -153,21 +153,21 @@ public class QuantityMeasurementApp {
 		System.out.println("\nInput: 1.0 ft and 12.0 inch");
 		System.out.println("Output: Equal (" + checkFeetAndInchesEquality(1.0, 12.0) + ")");
 		
-		Length l1 = new Length(1.0, LengthUnit.FEET);
-		Length l2 = new Length(12.0, LengthUnit.INCHES);
+		Quantity<LengthUnit> l1 = new Quantity<>(1.0, LengthUnit.FEET);
+		Quantity<LengthUnit> l2 = new Quantity<>(12.0, LengthUnit.INCHES);
 
 		System.out.println("UC3 (Generic Length): " + l1.equals(l2));
 		
-		Length y1 = new Length(1.0, LengthUnit.YARDS);
-		Length f1 = new Length(3.0, LengthUnit.FEET);
+		Quantity<LengthUnit> y1 = new Quantity<>(1.0, LengthUnit.YARDS);
+		Quantity<LengthUnit> f1 = new Quantity<>(3.0, LengthUnit.FEET);
 		System.out.println("1 Yard == 3 Feet → " + y1.equals(f1));
 
-		Length y2 = new Length(1.0, LengthUnit.YARDS);
-		Length i1 = new Length(36.0, LengthUnit.INCHES);
+		Quantity<LengthUnit> y2 = new Quantity<>(1.0, LengthUnit.YARDS);
+		Quantity<LengthUnit> i1 = new Quantity<>(36.0, LengthUnit.INCHES);
 		System.out.println("1 Yard == 36 Inches → " + y2.equals(i1));
 
-		Length cm1 = new Length(1.0, LengthUnit.CENTIMETERS);
-		Length inch1 = new Length(0.393701, LengthUnit.INCHES);
+		Quantity<LengthUnit> cm1 = new Quantity<>(1.0, LengthUnit.CENTIMETERS);
+		Quantity<LengthUnit> inch1 = new Quantity<>(0.393701, LengthUnit.INCHES);
 		System.out.println("1 cm == 0.393701 inch → " + cm1.equals(inch1));
 		
 		demonstrateLengthConversion(1.0, LengthUnit.FEET,
@@ -181,47 +181,47 @@ public class QuantityMeasurementApp {
 		
 		// UC 6
 		demonstrateAddition(
-		        new Length(1.0, LengthUnit.FEET),
-		        new Length(12.0, LengthUnit.INCHES));
+		        new Quantity<>(1.0, LengthUnit.FEET),
+		        new Quantity<>(12.0, LengthUnit.INCHES));
 
 		demonstrateAddition(
-		        new Length(1.0, LengthUnit.YARDS),
-		        new Length(3.0, LengthUnit.FEET));
+		        new Quantity<>(1.0, LengthUnit.YARDS),
+		        new Quantity<>(3.0, LengthUnit.FEET));
 
 		demonstrateAddition(
-		        new Length(5.0, LengthUnit.FEET),
-		        new Length(-2.0, LengthUnit.FEET));
+		        new Quantity<>(5.0, LengthUnit.FEET),
+		        new Quantity<>(-2.0, LengthUnit.FEET));
 		
 		//UC 7
 		demonstrateAdditionWithTargetUnit(
-		        new Length(1.0, LengthUnit.FEET),
-		        new Length(12.0, LengthUnit.INCHES),
+		        new Quantity<>(1.0, LengthUnit.FEET),
+		        new Quantity<>(12.0, LengthUnit.INCHES),
 		        LengthUnit.FEET);
 
 		demonstrateAdditionWithTargetUnit(
-		        new Length(1.0, LengthUnit.FEET),
-		        new Length(12.0, LengthUnit.INCHES),
+		        new Quantity<>(1.0, LengthUnit.FEET),
+		        new Quantity<>(12.0, LengthUnit.INCHES),
 		        LengthUnit.INCHES);
 
 		demonstrateAdditionWithTargetUnit(
-		        new Length(1.0, LengthUnit.FEET),
-		        new Length(12.0, LengthUnit.INCHES),
+		        new Quantity<>(1.0, LengthUnit.FEET),
+		        new Quantity<>(12.0, LengthUnit.INCHES),
 		        LengthUnit.YARDS);
 		
 		//UC 9
-		QuantityWeight w1 = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
-		QuantityWeight w2 = new QuantityWeight(1000.0, WeightUnit.GRAM);
+		Quantity<WeightUnit> w1 = new Quantity<>(1.0, WeightUnit.KILOGRAM);
+		Quantity<WeightUnit> w2 = new Quantity<>(1000.0, WeightUnit.GRAM);
 
 		System.out.println("Weight equality: " + w1.equals(w2));
 
-		QuantityWeight converted = w1.convertTo(WeightUnit.GRAM);
+		Quantity<WeightUnit> converted = w1.convertTo(WeightUnit.GRAM);
 		System.out.println("Convert 1 kg to gram → " + converted);
 
-		QuantityWeight sum = QuantityWeight.add(w1, w2);
+		Quantity<WeightUnit> sum = w1.add(w2);
 		System.out.println("Addition (kg + g) → " + sum);
 
-		QuantityWeight sumTarget =
-		        QuantityWeight.add(w1, w2, WeightUnit.GRAM);
+		Quantity<WeightUnit> sumTarget =
+		        w1.add(w2, WeightUnit.GRAM);
 
 		System.out.println("Addition with target unit → " + sumTarget);
 	}
