@@ -38,6 +38,29 @@ public class Length {
 	private double convertToBaseUnit() {
 		return unit.toInches(value);
 	}
+	
+	public static double convert(double value, LengthUnit source, LengthUnit target) {
+		if(!Double.isFinite(value)) {
+			throw new IllegalArgumentException("Value must be finite");
+		}
+		
+		if(source == null || target == null) {
+			throw new IllegalArgumentException("Units cannot be null");
+		}
+		
+		double baseValue = source.toInches(value);
+		
+		return baseValue / target.toInches(1.0);
+	}
+	
+	public Length convertTo(LengthUnit targetUnit) {
+		if(targetUnit == null) {
+			throw new IllegalArgumentException("Target unit cannot be null");
+		}
+		double convertedValue = convert(this.value, this.unit, targetUnit);
+		
+		return new Length(convertedValue, targetUnit);
+	}
 
 	@Override
 	public boolean equals(Object obj) {
