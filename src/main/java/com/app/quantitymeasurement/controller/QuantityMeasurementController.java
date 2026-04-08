@@ -6,7 +6,8 @@ import com.app.quantitymeasurement.entity.QuantityDTO;
 import com.app.quantitymeasurement.service.IQuantityMeasurementService;
 
 @RestController
-@RequestMapping("/quantity")
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class QuantityMeasurementController {
 
     private final IQuantityMeasurementService service;

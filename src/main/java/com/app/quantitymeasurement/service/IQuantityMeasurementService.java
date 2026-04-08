@@ -14,3 +14,20 @@ public interface IQuantityMeasurementService {
 
     double divide(QuantityDTO q1, QuantityDTO q2);
 }
+
+//package com.app.quantitymeasurement.service;
+//
+//import com.app.quantitymeasurement.entity.QuantityDTO;
+//
+//public interface IQuantityMeasurementService {
+//
+//    boolean compare(QuantityDTO q1, QuantityDTO q2);
+//
+//    QuantityDTO convert(QuantityDTO q, String targetUnit);
+//
+//    QuantityDTO add(QuantityDTO q1, QuantityDTO q2, String targetUnit);
+//
+//    QuantityDTO subtract(QuantityDTO q1, QuantityDTO q2, String targetUnit);
+//
+//    double divide(QuantityDTO q1, QuantityDTO q2);
+//}

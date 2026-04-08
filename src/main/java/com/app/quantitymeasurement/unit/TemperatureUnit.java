@@ -3,48 +3,29 @@ package com.app.quantitymeasurement.unit;
 public enum TemperatureUnit implements IMeasurable {
 
     CELSIUS,
-    FAHRENHEIT,
-    KELVIN;
+    FAHRENHEIT;
 
     @Override
     public double getConversionFactor() {
-        return 1.0;
+        throw new UnsupportedOperationException("Temperature uses custom conversion");
     }
 
     @Override
     public double convertToBaseUnit(double value) {
-
-        switch (this) {
-            case CELSIUS:
-                return value;
-
-            case FAHRENHEIT:
-                return (value - 32) * 5 / 9;
-
-            case KELVIN:
-                return value - 273.15;
-
-            default:
-                throw new IllegalStateException();
+        // Convert everything to Celsius (base)
+        if (this == FAHRENHEIT) {
+            return (value - 32) * 5 / 9;
         }
+        return value;
     }
 
     @Override
     public double convertFromBaseUnit(double baseValue) {
-
-        switch (this) {
-            case CELSIUS:
-                return baseValue;
-
-            case FAHRENHEIT:
-                return baseValue * 9 / 5 + 32;
-
-            case KELVIN:
-                return baseValue + 273.15;
-
-            default:
-                throw new IllegalStateException();
+        // Convert from Celsius
+        if (this == FAHRENHEIT) {
+            return (baseValue * 9 / 5) + 32;
         }
+        return baseValue;
     }
 
     @Override
@@ -53,14 +34,13 @@ public enum TemperatureUnit implements IMeasurable {
     }
 
     @Override
-    public boolean supportsArithmetic() {
-        return false;
-    }
-
-    @Override
     public void validateOperationSupport(String operation) {
-        throw new UnsupportedOperationException(
-                "Temperature does not support " + operation + " operation"
-        );
+        // ❌ Temperature does NOT support arithmetic
+        if (!operation.equalsIgnoreCase("conversion") &&
+            !operation.equalsIgnoreCase("compare")) {
+            throw new UnsupportedOperationException(
+                    "Temperature does not support " + operation
+            );
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.app.quantitymeasurement.config;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -29,39 +31,58 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+                                   HttpServletResponse response,
+                                   FilterChain filterChain)
             throws ServletException, IOException {
 
+        System.out.println("==== JWT FILTER START ====");
+
         String authHeader = request.getHeader("Authorization");
+        System.out.println("HEADER: " + authHeader);
 
-        // Check if token exists
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-        String token = authHeader.substring(7);
+            String token = authHeader.substring(7);
+            System.out.println("TOKEN: " + token);
 
-        // Validate token
-        if (jwtUtil.validateToken(token)) {
+            boolean isValid = jwtUtil.validateToken(token);
+            System.out.println("VALID TOKEN: " + isValid);
 
-            String email = jwtUtil.extractEmail(token);
+            if (isValid) {
 
-            User user = userRepository.findByEmail(email).orElse(null);
+                String email = jwtUtil.extractEmail(token);
+                System.out.println("EMAIL: " + email);
 
-            if (user != null) {
+                // ✅ VERY IMPORTANT CHECK
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                email,
-                                null,
-                                null
-                        );
+                    User user = userRepository.findByEmail(email).orElse(null);
+                    System.out.println("USER FOUND: " + user);
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    if (user != null) {
+
+                        UsernamePasswordAuthenticationToken authentication =
+                                new UsernamePasswordAuthenticationToken(
+                                        email,
+                                        null,
+                                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                                );
+
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        System.out.println("AUTH SET SUCCESS ✅");
+                    } else {
+                        System.out.println("USER NOT FOUND ❌");
+                    }
+                }
+
+            } else {
+                System.out.println("INVALID TOKEN ❌");
             }
+        } else {
+            System.out.println("NO TOKEN FOUND ❌");
         }
+
+        System.out.println("==== JWT FILTER END ====");
 
         filterChain.doFilter(request, response);
     }

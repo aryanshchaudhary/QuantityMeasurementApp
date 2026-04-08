@@ -1,7 +1,11 @@
 package com.app.quantitymeasurement.user;
 
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -13,9 +17,10 @@ public class AuthController {
     }
 
     // REGISTER API
-    @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-        return authService.register(request);
+    @PostMapping("/signup")
+    public ResponseEntity register(@RequestBody RegisterRequest request) {
+    	authService.register(request);
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
     // LOGIN API (RETURNS TOKEN)

@@ -9,78 +9,75 @@ public class QuantityDemo {
 
     public static void runDemo() {
 
-        System.out.println("\nWelcome to Quantity Measurement App");
+        System.out.println("\n===== Quantity Measurement Demo =====");
 
-        // UC3 Length Equality
-        Quantity<LengthUnit> l1 = new Quantity<>(1.0, LengthUnit.FEET);
-        Quantity<LengthUnit> l2 = new Quantity<>(12.0, LengthUnit.INCHES);
+        // ================= LENGTH =================
+        System.out.println("\n--- LENGTH ---");
 
-        System.out.println("1 ft == 12 inches → " + l1.equals(l2));
+        Quantity<LengthUnit> l1 = new Quantity<>(1000.0, LengthUnit.METER);
+        Quantity<LengthUnit> l2 = new Quantity<>(1.0, LengthUnit.KILOMETER);
 
-        Quantity<LengthUnit> y1 = new Quantity<>(1.0, LengthUnit.YARDS);
-        Quantity<LengthUnit> f1 = new Quantity<>(3.0, LengthUnit.FEET);
+        System.out.println("1000 meter == 1 km → " + l1.equals(l2));
 
-        System.out.println("1 yard == 3 feet → " + y1.equals(f1));
+        Quantity<LengthUnit> cm = new Quantity<>(100.0, LengthUnit.CENTIMETER);
+        Quantity<LengthUnit> m = new Quantity<>(1.0, LengthUnit.METER);
 
-        Quantity<LengthUnit> cm1 = new Quantity<>(1.0, LengthUnit.CENTIMETERS);
-        Quantity<LengthUnit> inch1 = new Quantity<>(0.393701, LengthUnit.INCHES);
-
-        System.out.println("1 cm == 0.393701 inch → " + cm1.equals(inch1));
+        System.out.println("100 cm == 1 meter → " + cm.equals(m));
 
         // Conversion
-        System.out.println("\nConversion");
+        System.out.println("\nConversion:");
 
-        Quantity<LengthUnit> feet = new Quantity<>(1.0, LengthUnit.FEET);
-        System.out.println("1 ft to inches → " + feet.convertTo(LengthUnit.INCHES));
+        Quantity<LengthUnit> meter = new Quantity<>(1.0, LengthUnit.METER);
+        System.out.println("1 meter to cm → " + meter.convertTo(LengthUnit.CENTIMETER));
 
-        Quantity<LengthUnit> yards = new Quantity<>(3.0, LengthUnit.YARDS);
-        System.out.println("3 yards to feet → " + yards.convertTo(LengthUnit.FEET));
+        Quantity<LengthUnit> km = new Quantity<>(1.0, LengthUnit.KILOMETER);
+        System.out.println("1 km to meter → " + km.convertTo(LengthUnit.METER));
 
         // Addition
-        System.out.println("\nAddition");
+        System.out.println("\nAddition:");
 
         Quantity<LengthUnit> addResult =
-                new Quantity<>(1.0, LengthUnit.FEET)
-                        .add(new Quantity<>(12.0, LengthUnit.INCHES));
+                new Quantity<>(1.0, LengthUnit.METER)
+                        .add(new Quantity<>(100.0, LengthUnit.CENTIMETER));
 
-        System.out.println("1 ft + 12 inches → " + addResult);
+        System.out.println("1 m + 100 cm → " + addResult);
 
         // Subtraction
-        System.out.println("\nSubtraction");
+        System.out.println("\nSubtraction:");
 
         Quantity<LengthUnit> subtractResult =
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .subtract(new Quantity<>(6.0, LengthUnit.INCHES));
+                new Quantity<>(5.0, LengthUnit.METER)
+                        .subtract(new Quantity<>(50.0, LengthUnit.CENTIMETER));
 
-        System.out.println("10 ft - 6 inches → " + subtractResult);
+        System.out.println("5 m - 50 cm → " + subtractResult);
 
         // Division
-        System.out.println("\nDivision");
+        System.out.println("\nDivision:");
 
         double divideResult =
-                new Quantity<>(10.0, LengthUnit.FEET)
-                        .divide(new Quantity<>(2.0, LengthUnit.FEET));
+                new Quantity<>(10.0, LengthUnit.METER)
+                        .divide(new Quantity<>(2.0, LengthUnit.METER));
 
-        System.out.println("10 ft / 2 ft → " + divideResult);
+        System.out.println("10 m / 2 m → " + divideResult);
 
-        // Weight
-        System.out.println("\nWeight");
+        // ================= WEIGHT =================
+        System.out.println("\n--- WEIGHT ---");
 
         Quantity<WeightUnit> w1 = new Quantity<>(1.0, WeightUnit.KILOGRAM);
         Quantity<WeightUnit> w2 = new Quantity<>(1000.0, WeightUnit.GRAM);
 
         System.out.println("1 kg == 1000 g → " + w1.equals(w2));
 
-        // Volume
-        System.out.println("\nVolume");
+        // ================= VOLUME =================
+        System.out.println("\n--- VOLUME ---");
 
-        Quantity<VolumeUnit> v1 = new Quantity<>(1.0, VolumeUnit.LITRE);
-        Quantity<VolumeUnit> v2 = new Quantity<>(1000.0, VolumeUnit.MILLILITRE);
+        Quantity<VolumeUnit> v1 = new Quantity<>(1.0, VolumeUnit.LITER);
+        Quantity<VolumeUnit> v2 = new Quantity<>(1000.0, VolumeUnit.MILLILITER);
 
         System.out.println("1 L == 1000 mL → " + v1.equals(v2));
 
-        // Temperature
-        System.out.println("\nTemperature");
+        // ================= TEMPERATURE =================
+        System.out.println("\n--- TEMPERATURE ---");
 
         Quantity<TemperatureUnit> t1 =
                 new Quantity<>(0.0, TemperatureUnit.CELSIUS);

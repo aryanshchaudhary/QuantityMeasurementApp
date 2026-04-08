@@ -10,7 +10,7 @@ public class QuantityDTO {
 
     public QuantityDTO(double value, String unit) {
         this.value = value;
-        this.unit = unit;
+        setUnit(unit);
     }
 
     public double getValue() {
@@ -26,7 +26,10 @@ public class QuantityDTO {
     }
 
     public void setUnit(String unit) {
-        this.unit = unit;
+        if (unit == null || unit.isBlank()) {
+            throw new IllegalArgumentException("Unit cannot be null or empty");
+        }
+        this.unit = unit.toUpperCase().trim();
     }
     
     @Override
