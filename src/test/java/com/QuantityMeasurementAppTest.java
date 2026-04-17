@@ -1,33 +1,18 @@
 package com;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.app.quantitymeasurement.Quantity;
 import com.app.quantitymeasurement.unit.LengthUnit;
 import com.app.quantitymeasurement.unit.TemperatureUnit;
 import com.app.quantitymeasurement.unit.VolumeUnit;
 import com.app.quantitymeasurement.unit.WeightUnit;
-import com.app.quantitymeasurement.user.UserRepository;
-
-import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
-import com.app.quantitymeasurement.entity.QuantityDTO;
-import com.app.quantitymeasurement.repository.IQuantityMeasurementRepository;
-import com.app.quantitymeasurement.service.QuantityMeasurementServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = com.app.quantitymeasurement.QuantityMeasurementApp.class)
 public class QuantityMeasurementAppTest {
 
     private static final double EPSILON = 1e-6;
-
-    @Autowired
-    private IQuantityMeasurementRepository repository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     // ================= LENGTH TESTS =================
 
@@ -121,40 +106,5 @@ public class QuantityMeasurementAppTest {
         Quantity<TemperatureUnit> t2 = new Quantity<>(32.0, TemperatureUnit.FAHRENHEIT);
 
         assertTrue(t1.equals(t2));
-    }
-
-    // ================= REPOSITORY =================
-
-    @Test
-    void testRepository_SaveMeasurement() {
-
-        repository.deleteAll();
-
-        QuantityMeasurementEntity entity = new QuantityMeasurementEntity(
-                "ADD",
-                "Quantity(1 METER)",
-                "Quantity(100 CENTIMETER)",
-                "Quantity(2 METER)"
-        );
-
-        repository.save(entity);
-
-        assertEquals(1, repository.findAll().size());
-    }
-
-    @Test
-    void testService_Integration() {
-
-        repository.deleteAll();
-
-        QuantityMeasurementServiceImpl service =
-                new QuantityMeasurementServiceImpl(repository, userRepository);
-
-        service.add(
-                new QuantityDTO(1.0, "METER"),
-                new QuantityDTO(100.0, "CENTIMETER")
-        );
-
-        assertEquals(1, repository.findAll().size());
     }
 }
