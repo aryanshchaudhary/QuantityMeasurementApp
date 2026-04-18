@@ -33,7 +33,7 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // 🔒 PROTECTED
-                .pathMatchers("/api/history/**").authenticated()
+                .pathMatchers("/history/**").authenticated()
 
                 .anyExchange().permitAll()
             );
